@@ -1,0 +1,18 @@
+.dashboardContainer {
+	position: relative;
+	text-align: center;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: no-repeat center fixed url('../img/offroad-3747184_1280.jpg');
+	background-size: cover;
+	filter: brightness(70%);
+}
+ .dashboardText {
+    position: relative;
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+    z-index: 1;
+ }
