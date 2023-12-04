@@ -14,7 +14,6 @@ const Login = () => {
 		const auth = getAuth()
 		signInWithEmailAndPassword(auth, email, password)
 			.then(userCredential => {
-				const user = userCredential.user
 				navigate('/')
 			})
 			.catch(error => {
@@ -23,20 +22,20 @@ const Login = () => {
 	}
 
 	return (
-		<div className='d-flex align-items-center justify-content-center' style={{ minHeight: '100vh' }}>
-			<Card style={{ minWidth: '300px', maxWidth: '400px', backgroundColor: '#eeeeee' }}>
-				<Card.Body style={{ display: 'flex', flexDirection: 'column' }}>
+		<div className='d-flex align-items-center justify-content-center min-vh-100'>
+			<Card className='card'>
+				<Card.Body className='d-flex flex-column'>
 					<h2 className='text-center mb-4'>Logowanie</h2>
 					{error && <Alert variant='danger'>{error}</Alert>}
 					<Form.Group>
 						<Form.Label>Email</Form.Label>
 						<Form.Control type='email' onChange={e => setEmail(e.target.value)} required />
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className='my-3'>
 						<Form.Label>Hasło</Form.Label>
 						<Form.Control type='password' onChange={e => setPassword(e.target.value)} required />
 					</Form.Group>
-					<Button style={{ margin: '10px' }} onClick={handleLogin} btnText={'Zaloguj się'}></Button>
+					<Button onClick={handleLogin} btnText={'Zaloguj się'}></Button>
 				</Card.Body>
 			</Card>
 		</div>

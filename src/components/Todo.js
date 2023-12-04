@@ -1,40 +1,28 @@
-import classes from "./Button.module.css";
-import EditTodo from "./EditTodo";
-const Todo = (props) => {
-
-  return (
-    <>
-      <div className="todo-item">
-        <hr />
-        <span className={`${props.isChecked === true ? "done" : ""}`}>
-          <div className="checker">
-            <span className="">
-              <input
-                type="checkbox"
-                defaultChecked={props.isChecked}
-                name={props.id}
-                onChange={(event) => props.checkHandler(event, props.todo)}
-              />
-            </span>
-          </div>
-          &nbsp;{props.todo}
-          <br />
-          <i>{new Date(props.timestamp.seconds * 1000).toLocaleString()}</i>
-        </span>
-        <div>
-          <span className=" float-end mx-3">
-            <EditTodo todo={props.todo} id={props.id} />
-          </span>
-          <button
-            type="button"
-            className={`${classes.btnDelete} float-end`}
-            onClick={() => props.deleteTodo(props.id)}
-          >
-            Usuń
-          </button>
-        </div>
-      </div>
-    </>
-  );
-};
-export default Todo;
+import classes from './Button.module.css'
+import EditTodo from './EditTodo'
+const Todo = ({ id, timestamp, todo, isChecked, deleteTodo, checkHandler }) => {
+	return (
+		<div className='p-2 my-2 fs-6'>
+			<hr />
+			<span className={`${isChecked === true ? 'done' : ''}`}>
+				<div className='checker'>
+					<span>
+						<input type='checkbox' defaultChecked={isChecked} name={id} onChange={event => checkHandler(event)} />
+					</span>
+				</div>
+				<span>{todo}</span>
+				<br />
+				<i>{new Date(timestamp.seconds * 1000).toLocaleString()}</i>
+			</span>
+			<div>
+				<button type='button' className={`${classes.btnDelete} float-end`} onClick={() => deleteTodo(id)}>
+					Usuń
+				</button>
+				<span className=' float-end mx-3'>
+					<EditTodo todo={todo} id={id} />
+				</span>
+			</div>
+		</div>
+	)
+}
+export default Todo

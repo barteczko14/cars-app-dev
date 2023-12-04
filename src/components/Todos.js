@@ -15,42 +15,34 @@ import {
 
 import { db } from '../firebase'
 
-export default function Todos(props) {
+export default function Todos() {
+	const [todos, setTodos] = useState([])
 	const [createTodo, setCreateTodo] = useState('')
-	const [todos, setTodo] = useState([])
-
 	const [checked, setChecked] = useState([])
 
 	const collectionRef = collection(db, 'todo')
 
 	useEffect(() => {
-		const getTodo = async () => {
+		const getTodos = async () => {
 			const q = query(collectionRef, orderBy('timestamp'))
-			await getDocs(q)
-				.then(todo => {
-					let todoData = todo.docs.map(doc => ({
-						...doc.data(),
-						id: doc.id,
-					}))
-					setTodo(todoData)
-					setChecked(todoData)
-				})
-				.catch(err => {
-					console.log(err)
-				})
+			await getDocs(q).then(todo => {
+				let todoData = todo.docs.map(doc => ({
+					...doc.data(),
+					id: doc.id,
+				}))
+				setTodos(todoData)
+				setChecked(todoData)
+			})
 		}
-		getTodo()
+		getTodos()
 	}, [])
 
-	//Add Todo Handler
 	const submitTodo = async e => {
 		e.preventDefault()
-
 		if (!createTodo) {
 			alert('Wszystkie pola muszą być uzupełnione!')
 			return
 		}
-
 		try {
 			await addDoc(collectionRef, {
 				todo: createTodo,
@@ -59,11 +51,10 @@ export default function Todos(props) {
 			})
 			window.location.reload()
 		} catch (err) {
-			console.log(err)
+			throw new Error('Error')
 		}
 	}
 
-	//Delete Handler
 	const deleteTodo = async id => {
 		try {
 			if (window.confirm('Czy na pewno chcesz usunąć to zadanie?')) {
@@ -72,12 +63,11 @@ export default function Todos(props) {
 				window.location.reload()
 			}
 		} catch (err) {
-			console.log(err)
+			throw new Error('Error')
 		}
 	}
 
-	//Checkbox Handler
-	const checkHandler = async (event, todo) => {
+	const checkHandler = async event => {
 		setChecked(state => {
 			const indexToUpdate = state.findIndex(checkBox => checkBox.id.toString() === event.target.name)
 			let newState = state.slice()
@@ -85,58 +75,49 @@ export default function Todos(props) {
 				...state[indexToUpdate],
 				isChecked: !state[indexToUpdate].isChecked,
 			})
-			setTodo(newState)
+			setTodos(newState)
 			return newState
 		})
 
-		// Persisting the checked value
 		try {
 			const docRef = doc(db, 'todo', event.target.name)
 			await runTransaction(db, async transaction => {
 				const todoDoc = await transaction.get(docRef)
 				if (!todoDoc.exists()) {
-					throw 'Dokument nie istnieje!'
+					throw new Error('Error')
 				}
 				const newValue = !todoDoc.data().isChecked
 				transaction.update(docRef, { isChecked: newValue })
 			})
 		} catch (error) {
-			console.log('Transaction failed: ', error)
+			throw new Error('Error')
 		}
 	}
 
 	return (
 		<>
-			<div className='container' style={{ marginTop: '20px' }}>
-				<div className='row'>
-					<div className='col-md-12'>
-						<div className='card card-white'>
-							<div className='card-body'>
-								<button className={classes.btn} data-bs-toggle='modal' data-bs-target='#addModal'>
-									Dodaj zadanie
-								</button>
-
-								{todos.map(({ todo, id, isChecked, timestamp }) => (
-									<div className='todo-list' key={id}>
-										{
-											<Todo
-												id={id}
-												timestamp={timestamp}
-												todo={todo}
-												isChecked={isChecked}
-												deleteTodo={deleteTodo}
-												checkHandler={checkHandler}></Todo>
-										}
-									</div>
-								))}
+			<div className='container mt-3'>
+				<div className='card'>
+					<div className='card-body'>
+						<button className={classes.btn} data-bs-toggle='modal' data-bs-target='#addModal'>
+							Dodaj zadanie
+						</button>
+						{todos.map(({ todo, id, isChecked, timestamp }) => (
+							<div key={id}>
+								<Todo
+									id={id}
+									timestamp={timestamp}
+									todo={todo}
+									isChecked={isChecked}
+									deleteTodo={deleteTodo}
+									checkHandler={checkHandler}></Todo>
 							</div>
-						</div>
+						))}
 					</div>
 				</div>
 			</div>
-
 			{/* Modal */}
-			<div className='modal fade' id='addModal' tabIndex='-1' aria-labelledby='addModalLabel' aria-hidden='true'>
+			<div className='modal fade' id='addModal' aria-labelledby='addModalLabel' aria-hidden='true'>
 				<div className='modal-dialog'>
 					<form className='d-flex' onSubmit={submitTodo}>
 						<div className='modal-content'>

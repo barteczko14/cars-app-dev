@@ -1,7 +1,7 @@
 .btn {
-	background-color: #64CCC5;
+	background-color: #64ccc5;
 	border-radius: 8px;
-	border: 1px solid #176B87;
+	border: 1px solid #176b87;
 	color: #000000;
 	font-size: 16px;
 	padding: 6px 12px;
@@ -13,16 +13,16 @@
 	color: #eeeeee;
 	font-size: 14px;
 	padding: 5px 10px;
-	border:none;
+	border: none;
 }
 
 .btnEdit {
-	background-color: #176B87;
+	background-color: #176b87;
 	border-radius: 8px;
 	color: #eeeeee;
 	font-size: 14px;
 	padding: 5px 10px;
-	border:none;
+	border: none;
 }
 .btnBack {
 	background-color: #6c757d;
@@ -30,5 +30,5 @@
 	color: #eeeeee;
 	font-size: 14px;
 	padding: 5px 10px;
-	border:none;
+	border: none;
 }

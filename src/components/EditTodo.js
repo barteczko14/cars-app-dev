@@ -4,14 +4,13 @@ import { db } from '../firebase'
 import classes from './Button.module.css'
 
 const EditTodo = ({ todo, id }) => {
-	const [todos, setTodos] = useState([todo])
+	const [editedTodo, setEditedTodo] = useState([todo])
 
 	const updateTodo = async e => {
-		e.preventDefault()
 		try {
 			const todoDocument = doc(db, 'todo', id)
 			await updateDoc(todoDocument, {
-				todo: todos,
+				todo: editedTodo,
 			})
 			window.location.reload()
 		} catch (err) {
@@ -21,18 +20,17 @@ const EditTodo = ({ todo, id }) => {
 
 	return (
 		<>
-			<button type='button' className={classes.btnEdit} data-bs-toggle='modal' data-bs-target={`#id${id}`}>
+			<button className={classes.btnEdit} data-bs-toggle='modal' data-bs-target={`#id${id}`}>
 				Edycja
 			</button>
-
-			<div className='modal fade' id={`id${id}`} tabIndex='-1' aria-labelledby='editLabel' aria-hidden='true'>
+			<div className='modal fade' id={`id${id}`} aria-labelledby='editLabel' aria-hidden='true'>
 				<div className='modal-dialog'>
 					<div className='modal-content'>
 						<div className='modal-header'>
 							<h5 className='modal-title' id='editLabel'>
 								Edycja zadania
 							</h5>
-							<button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+							<button className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
 						</div>
 						<div className='modal-body'>
 							<form className='d-flex'>
@@ -40,7 +38,7 @@ const EditTodo = ({ todo, id }) => {
 									type='text'
 									className='form-control'
 									defaultValue={todo}
-									onChange={e => setTodos(e.target.value)}
+									onChange={e => setEditedTodo(e.target.value)}
 								/>
 							</form>
 						</div>

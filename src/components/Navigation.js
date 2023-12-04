@@ -1,28 +1,22 @@
 import React from 'react'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
 import Button from './Button'
 
-const Navigation = user => {
-	const [error, setError] = useState('')
+const Navigation = () => {
 	const navigate = useNavigate()
-	
+
 	const handleLogout = () => {
 		const auth = getAuth()
-		signOut(auth)
-			.then(() => {
-				navigate('/login')
-			})
-			.catch(error => {
-				setError('Wylogowanie nie powiodło się.')
-			})
+		signOut(auth).then(() => {
+			navigate('/login')
+		})
 	}
 
 	return (
-		<Navbar expand='lg' style={{ backgroundColor: '#eeeeee' }}>
+		<Navbar expand='lg' className='navigation'>
 			<Container>
 				<Navbar.Brand as={Link} to='/'>
 					Cars App
@@ -34,7 +28,7 @@ const Navigation = user => {
 							Baza części
 						</Nav.Link>
 						<Nav.Link as={Link} to='/todos'>
-							To do
+							Todo
 						</Nav.Link>
 					</Nav>
 					<Nav>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Container, Form } from 'react-bootstrap'
+import { Row, Col, Form } from 'react-bootstrap'
 import TableMain from './TableMain'
 import SearchForm from './SearchForm'
 import classes from './Button.module.css'
 import { collection, addDoc, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 
-const Search = props => {
+const Search = () => {
 	const [filters, setFilters] = useState({
 		name: '',
 		category: '',
@@ -30,13 +30,12 @@ const Search = props => {
 					setChecked(partData)
 				})
 				.catch(err => {
-					console.log(err)
+					throw new Error('Error')
 				})
 		}
 		getParts()
 	}, [])
 
-	// // Add Part Handler
 	const submitPart = async e => {
 		e.preventDefault()
 
@@ -53,11 +52,10 @@ const Search = props => {
 			})
 			window.location.reload()
 		} catch (err) {
-			console.log(err)
+			throw new Error('Error')
 		}
 	}
 
-	// Delete Handler
 	const deletePart = async id => {
 		try {
 			if (window.confirm('Czy na pewno chcesz usunąć to zadanie?')) {
@@ -70,7 +68,6 @@ const Search = props => {
 		}
 	}
 
-	// Filter Handler
 	const handleFilter = async () => {
 		let filteredParts = checked
 
@@ -95,7 +92,6 @@ const Search = props => {
 		setParts(filteredParts)
 	}
 
-	// Clear Filters Handler
 	const clearFilters = () => {
 		setFilters({
 			name: '',
@@ -106,20 +102,25 @@ const Search = props => {
 	}
 
 	return (
-		<Container fluid>
-			<Row className='justify-content-md-center' style={{ marginTop: '40px' }}>
-				<Col xs lg='2'>
+		<div className='container'>
+			<Row className='justify-content-md-center mt-4'>
+				<Col>
 					<button className={classes.btn} data-bs-toggle='modal' data-bs-target='#addModal'>
 						Dodaj nową część
 					</button>
 				</Col>
 			</Row>
-			<Row style={{ marginTop: '40px' }}>
-				<SearchForm filters={filters} setFilters={setFilters} handleFilter={handleFilter} clearFilters={clearFilters} />
+			<Row className='mt-4'>
+				<SearchForm
+					filters={filters}
+					setFilters={setFilters}
+					handleFilters={handleFilter}
+					clearFilters={clearFilters}
+				/>
 			</Row>
 			<TableMain parts={parts} deletePart={deletePart}></TableMain>
 			{/* Modal */}
-			<div className='modal fade' id='addModal' tabIndex='-1' aria-labelledby='addModalLabel' aria-hidden='true'>
+			<div className='modal fade' id='addModal' aria-labelledby='addModalLabel' aria-hidden='true'>
 				<div className='modal-dialog'>
 					<form className='d-flex' onSubmit={submitPart}>
 						<div className='modal-content'>
@@ -142,7 +143,7 @@ const Search = props => {
 									value={filters.category}
 									className='mb-3'
 									onChange={e => setFilters({ ...filters, category: e.target.value })}>
-									<option value='' selected='true' disabled='disabled'>
+									<option value='' defaultValue disabled='disabled'>
 										Kategoria
 									</option>
 									<option value='Akumulatory'>Akumulatory</option>
@@ -184,7 +185,7 @@ const Search = props => {
 									value={filters.mark}
 									className='mb-3'
 									onChange={e => setFilters({ ...filters, mark: e.target.value })}>
-									<option value='' selected='true' disabled='disabled'>
+									<option value='' defaultValue disabled='disabled'>
 										Marka
 									</option>
 									<option value='Alfa Romeo'>Alfa Romeo</option>
@@ -211,6 +212,7 @@ const Search = props => {
 									<option value='Peugeot'>Peugeot</option>
 									<option value='Renault'>Renault</option>
 									<option value='Saab'>Saab</option>
+									<option value='Seat'>Saab</option>
 									<option value='Subaru'>Subaru</option>
 									<option value='Suzuki'>Suzuki</option>
 									<option value='Toyota'>Toyota</option>
@@ -220,16 +222,18 @@ const Search = props => {
 								</Form.Select>
 							</div>
 							<div className='modal-footer'>
-								<button className={classes.btnBack} data-bs-dismiss='modal'>
+								<button type='button' className={classes.btnBack} data-bs-dismiss='modal'>
 									Zamknij
 								</button>
-								<button className={classes.btnEdit}>Dodaj</button>
+								<button type='submit' className={classes.btnEdit}>
+									Dodaj
+								</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
-		</Container>
+		</div>
 	)
 }
 

@@ -1,9 +1,7 @@
 import React from 'react'
 import classes from './Button.module.css'
 
-const SearchForm = props => {
-	const { filters, setFilters, handleFilter, clearFilters } = props
-
+const SearchForm = ({ filters, setFilters, handleFilters, clearFilters }) => {
 	const clearFilter = filterName => {
 		setFilters(prevFilters => ({ ...prevFilters, [filterName]: '' }))
 	}
@@ -29,7 +27,7 @@ const SearchForm = props => {
 					className='form-select'
 					value={filters.category}
 					onChange={e => setFilters({ ...filters, category: e.target.value })}>
-					<option value='' selected='true' disabled='disabled'>
+					<option value='' defaultValue disabled>
 						Kategoria
 					</option>
 					<option value='Akumulatory'>Akumulatory</option>
@@ -78,7 +76,7 @@ const SearchForm = props => {
 					className='form-select'
 					value={filters.mark}
 					onChange={e => setFilters({ ...filters, mark: e.target.value })}>
-					<option value='' selected='true' disabled='disabled'>
+					<option value='' defaultValue disabled>
 						Marka
 					</option>
 					<option value='Alfa Romeo'>Alfa Romeo</option>
@@ -105,6 +103,7 @@ const SearchForm = props => {
 					<option value='Peugeot'>Peugeot</option>
 					<option value='Renault'>Renault</option>
 					<option value='Saab'>Saab</option>
+					<option value='Seat'>Saab</option>
 					<option value='Subaru'>Subaru</option>
 					<option value='Suzuki'>Suzuki</option>
 					<option value='Toyota'>Toyota</option>
@@ -118,7 +117,7 @@ const SearchForm = props => {
 					</button>
 				)}
 			</div>
-			<button style={{ marginRight: '10px' }} className={classes.btn} onClick={handleFilter}>
+			<button className={`${classes.btn} me-3`} onClick={handleFilters}>
 				Filtruj
 			</button>
 			<button className={classes.btnEdit} onClick={clearFilters}>

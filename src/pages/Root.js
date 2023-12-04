@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation'
 function RootLayout(props) {
 	return (
 		<>
-			{props.user ? <Navigation user={props.user} /> : ''}
+			{props.user ? <Navigation /> : ''}
 			<main>
 				<Outlet></Outlet>
 			</main>
