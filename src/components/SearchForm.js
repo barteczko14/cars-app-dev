@@ -103,7 +103,7 @@ const SearchForm = ({ filters, setFilters, handleFilters, clearFilters }) => {
 					<option value='Peugeot'>Peugeot</option>
 					<option value='Renault'>Renault</option>
 					<option value='Saab'>Saab</option>
-					<option value='Seat'>Saab</option>
+					<option value='Seat'>Seat</option>
 					<option value='Subaru'>Subaru</option>
 					<option value='Suzuki'>Suzuki</option>
 					<option value='Toyota'>Toyota</option>

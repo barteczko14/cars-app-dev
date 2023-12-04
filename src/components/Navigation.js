@@ -16,13 +16,13 @@ const Navigation = () => {
 	}
 
 	return (
-		<Navbar expand='lg' className='navigation'>
+		<Navbar collapseOnSelect expand='lg' className='navigation'>
 			<Container>
-				<Navbar.Brand as={Link} to='/'>
+				<Navbar.Brand className='my-2' as={Link} to='/'>
 					Cars App
 				</Navbar.Brand>
-				<Navbar.Toggle aria-controls='basic-navbar-nav' />
-				<Navbar.Collapse id='basic-navbar-nav'>
+				<Navbar.Toggle aria-controls='responsive-navbar-nav' />
+				<Navbar.Collapse id='responsive-navbar-nav'>
 					<Nav className='me-auto'>
 						<Nav.Link as={Link} to='/search'>
 							Baza części
@@ -30,8 +30,11 @@ const Navigation = () => {
 						<Nav.Link as={Link} to='/todos'>
 							Todo
 						</Nav.Link>
+						<Nav.Link as={Link} to='/handbook'>
+							Poradnik
+						</Nav.Link>
 					</Nav>
-					<Nav>
+					<Nav className='my-3'>
 						<Button onClick={handleLogout} btnText={'Wyloguj się'}></Button>
 					</Nav>
 				</Navbar.Collapse>

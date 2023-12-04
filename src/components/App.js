@@ -6,6 +6,8 @@ import Dashboard from './Dashboard'
 import Login from './Login'
 import Search from './Search'
 import Todos from './Todos'
+import Handbook from './Handbook'
+import { repairGuides } from '../repairs.js'
 
 function App() {
 	const [user, setUser] = useState(null)
@@ -29,6 +31,7 @@ function App() {
 				{ index: true, element: user ? <Dashboard user={user} /> : <Login /> },
 				{ path: 'search', element: <Search /> },
 				{ path: 'todos', element: <Todos /> },
+				{ path: 'handbook', element: <Handbook repairGuides={repairGuides} /> },
 			],
 		},
 		{
